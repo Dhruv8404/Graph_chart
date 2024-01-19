@@ -1,0 +1,626 @@
+{% load bootstrap4 %} 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Combined Chart Example</title>
+
+    <!-- Include any additional stylesheets or scripts you need -->
+    <!-- Include Google Charts library -->
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+
+    <!-- Include ApexCharts library -->
+    <script src="https://cdn.jsdelivr.net/npm/apexcharts@3.29.0/dist/apexcharts.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        .navbar {
+            background-color: #e3f2fd;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+        }
+
+        nav {
+            background-color: #f8f9fa;
+            padding: 10px;
+            box-shadow: 0 2px 4px rgba(66, 65, 65, 0.1);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+            text-decoration: none;
+            color: #212529;
+        }
+
+        ul {
+            list-style: none;
+            display: flex;
+            gap: 20px;
+        }
+
+        li {
+            margin: 0;
+        }
+
+        a {
+            text-decoration: none;
+            color: #212529;
+        }
+
+        form {
+            display: flex;
+            align-items: center;
+        }
+
+        input[type="search"] {
+            padding: 8px;
+            border: 2px solid #2196F3;
+            border-radius: 4px;
+            transition: border-color 0.3s;
+        }
+
+        input[type="search"]:focus {
+            padding: 8px;
+            border-color: #2196F3;
+        }
+
+        button {
+            padding: 8px 15px;
+            background-color: #e3f2fd;
+            color: rgb(135, 135, 224);
+            border: 1px solid rgb(135, 135, 224);
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s, color 0.3s, border-color 0.3s;
+        }
+
+        button:hover {
+            background-color: #2196F3;
+            color: #ffffff;
+            border-color: #1565C0;
+        }
+
+        body {
+            padding-top: 60px; /* Add padding to the top of the body to accommodate the fixed navbar */
+        }
+
+        .chart-container {
+            margin-top: 20px; /* Adjust margin-top for chart containers */
+        }
+
+        .main-content {
+            margin-top: 60px; /* Adjust margin-top for main content */
+            padding: 20px;
+            width: 75vw; /* 75% of the viewport width */
+            height: 50vh; /* 50% of the viewport height */
+        }
+
+        .sidebar {
+            height: 100%;
+            width: 250px;
+            position: fixed;
+            top: 60px; /* Adjust top to accommodate fixed navbar */
+            left: 0;
+            background-color: #333;
+            padding-top: 20px;
+        }
+
+        .sidebar a {
+            padding: 10px;
+            text-decoration: none;
+            font-size: 18px;
+            color: white;
+            display: block;
+        }
+
+        .sidebar a:hover {
+            background-color: #ddd;
+            color: rgb(174, 172, 172);
+        }
+
+        .dropdown-content {
+            display: none;
+            padding-left: 20px;
+        }
+
+        .dropdown:hover .dropdown-content {
+            display: block;
+        }
+
+        .main-content {
+            margin-left: 250px;
+            padding: 20px;
+        }
+        .main-contents {
+            margin-top: 60px; /* Adjust margin-top for main content */
+            padding: 20px;
+            width: 80vw; /* 75% of the viewport width */
+            height: 50vh; /* 50% of the viewport height */
+        }
+        td {
+            border: 2px solid #ddd;
+            padding: 8px;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-light fixed-top" style="background-color: #e3f2fd; display: flex; justify-content: space-between; align-items: center; padding: 10px;">
+        <a href="#" class="logo">DHRUV PATEL</a>
+        <ul>
+            <li><a href="#">Home</a></li>
+            <li><a href="#">Link</a></li>
+            <li><a href="#">Dropdown</a></li>
+            <li><a href="#" class="disabled">Disabled</a></li>
+        </ul>
+        <form>
+            <input type="search" placeholder="Search">
+            <button type="submit">Search</button>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        </form>
+    </nav>
+
+    <div class="sidebar">
+        <a href="#">Dashboard</a>
+        <div class="dropdown">
+            <a href="#">Ecommerce</a>
+            <div class="dropdown-content">
+                <a href="#">Dashboard</a>
+                <a href="#">Product</a>
+                <a href="#">Order</a>
+                <a href="#">Customer</a>
+                <a href="#">Manage Review</a>
+                <a href="#">Referrals</a>
+                <a href="#">Settings</a>
+            </div>
+        </div>
+        <div class="dropdown">
+            <a href="#">Academy</a>
+            <div class="dropdown-content">
+                <a href="#">Dashboard</a>
+                <a href="#">My Course</a>
+                <a href="#">Course Details</a>
+            </div>
+        </div>
+        <a href="#">CRM</a>
+        <a href="#">Logistics</a>
+        <div class="dropdown">
+            <a href="#">Front Pages</a>
+            <div class="dropdown-content">
+                <a href="#">Landing</a>
+                <a href="#">Pricing</a>
+                <a href="#">Payment</a>
+                <a href="#">Checkout</a>
+                <a href="#">Help Center</a>
+            </div>
+        </div>
+        <div class="dropdown">
+        <a href="#">APPS & PAGES</a>
+        <div class="dropdown-content">
+            <a href="#">Landing</a>
+            <a href="#">Pricing</a>
+            <a href="#">Payment</a>
+            <a href="#">Checkout</a>
+            <a href="#">Help Center</a>
+        </div>
+    </div>
+    </div>
+
+    <div class="main-content">
+        <table>
+            <tr>
+                <td class="chart-container">
+                    <div id="home_chart" style="width: 1200px; height: 500px;" class="chart"></div>
+                </td>
+            </tr>
+            <tr>
+                <td class="chart-container">
+                    <div id="trade_chart"  style="width: 1200px; height: 500px;" class="chart"></div>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <h1>Candlestick Chart Example</h1>
+                    <div id="candlestick-chart"  style="width: 1200px; height: 500px;" class="chart"></div>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <div id="columnchart_material"  style="width: 1200px; height: 600px;" class="chart"></div>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <div id="index_chart"  style="width: 1200px; height: 400px;" class="chart"></div>
+                </td>
+            </tr>
+            <tr>
+                <td class="chart-container">
+                    <div id="chart_line"  style="width: 1200px; height: 400px;" class="chart"></div>
+                </td>
+            </tr>
+        </table>
+        <table class=" main-contents">
+            <tr>
+                <td >
+                    <div id="chart"  style="width: 300px; height: 200px;" class="chart"></div>
+                </td>
+                <td  style="width: 600px; height: 500px;">
+                    <div id="speed-container" style="width: 600px; height: 300px;" class="chart"></div>
+                </td>
+            </tr>
+       
+            <tr>
+                <td>
+                    <div id="piechart_3d" style="width: 400px; height: 400px;" class="chart"></div>
+                </td>
+                <td>
+                    <div id="barchart_div" style="width: 400px; height: 400px;" class="chart"></div>
+                </td>
+            </tr>
+        </table>
+    </div>
+
+    <!-- Include Bootstrap JS and other scripts at the end of the body -->
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+
+</body>
+    <script>
+        // Google Charts
+        google.charts.load('current', {'packages':['bar']});
+        google.charts.setOnLoadCallback(drawGoogleChart);
+
+        function drawGoogleChart() {
+            var jsonData = {{ chart_data|safe }};  // Load JSON data from Django context
+
+            var data = new google.visualization.DataTable();
+            data.addColumn('string', 'Year');
+            data.addColumn('number', 'Sales');
+            data.addColumn('number', 'Expenses');
+            data.addColumn('number', 'Profit');
+
+            for (var i = 0; i < jsonData.length; i++) {
+                data.addRow([jsonData[i][0].toString(), jsonData[i][1], jsonData[i][2], jsonData[i][3]]);
+            }
+
+            var options = {
+                chart: {
+                    title: 'Company Performance',
+                    subtitle: 'Sales, Expenses, and Profit: 2014-2017',
+                }
+            };
+
+            var chart = new google.charts.Bar(document.getElementById('columnchart_material'));
+            chart.draw(data, google.charts.Bar.convertOptions(options));
+        }
+
+        // ApexCharts
+        var chartOptions = JSON.parse('{{ chart_options|safe }}');
+        var candlestickData = JSON.parse('{{ candlestick_data|safe }}');
+
+        chartOptions.series = [{
+            data: candlestickData
+        }];
+
+        var apexChart = new ApexCharts(document.querySelector("#candlestick-chart"), chartOptions);
+        apexChart.render();
+         
+        var options = {
+      series: [{
+        data: {{ graph_data | safe }}
+      }],
+       
+      chart: {
+        height: 350,
+        type: 'rangeBar',
+        zoom: { enabled: false }
+      },
+      plotOptions: {
+        bar: {
+          isDumbbell: true,
+          columnWidth: 3,
+          dumbbellColors: [['#008FFB', '#00E396']]
+        }
+      },
+      fill: {
+        type: 'gradient',
+        gradient: {
+          type: 'vertical',
+          gradientToColors: ['#00E396'],
+          inverseColors: true,
+          stops: [0, 100]
+        }
+      },
+      grid: {
+        xaxis: {
+          lines: {
+            show: true
+          }
+          
+        },
+        yaxis: {
+          lines: {
+            show: false
+          }
+        }
+      },
+      xaxis: {
+        tickPlacement: 'on'
+      }
+
+    };
+
+    var chart = new ApexCharts(document.getElementById('chart_line'), options);
+    chart.render();
+ 
+    var options = {
+      series: [
+        {
+          name: 'North',
+          data: {{ north_chart_data|safe }}
+        },
+        {
+          name: 'South',
+          data: {{ south_chart_data|safe }}
+        }
+      ],
+      chart: {
+        type: 'area',
+        height: 350
+      },
+      dataLabels: {
+        enabled: false
+      },
+      stroke: {
+        curve: 'straight'
+      },
+    };
+  
+    var chart = new ApexCharts(document.querySelector("#home_chart"), options);
+    chart.render();
+
+    var options = {
+      series: [
+        {% for entry in index_data %}
+        {
+          name: '{{ entry.x }}',
+          data: [
+            { x: {{ entry.x }}, y: {{ entry.y.0 }} },
+            { x: {{ entry.x }}, y: {{ entry.y.1 }} }
+          ]
+        },
+        {% endfor %}
+      ],
+      chart: {
+        type: 'area',
+        height: 350
+      },
+      // ... (rest of the JavaScript code remains unchanged)
+    };
+
+    var chart = new ApexCharts(document.getElementById('index_chart'), options);
+    chart.render();
+
+    var options = {
+        series: {{ redar_data|safe }},
+        chart: {
+            height: 350,
+            type: 'radar',
+            dropShadow: {
+                enabled: true,
+                blur: 1,
+                left: 1,
+                top: 1
+            }
+        },
+        title: {
+            text: 'Radar Chart - Multi Series'
+        },
+        stroke: {
+            width: 2
+        },
+        fill: {
+            opacity: 0.1
+        },
+        markers: {
+            size: 0
+        },
+        xaxis: {
+            categories: ['2011', '2012', '2013', '2014', '2015', '2016']
+        }
+    };
+
+    var chart = new ApexCharts(document.querySelector("#chart"), options);
+    chart.render();
+
+    google.charts.load('current', {'packages':['corechart']});
+      google.charts.setOnLoadCallback(drawChart);
+
+      function drawChart() {
+
+        var data = new google.visualization.DataTable();
+        data.addColumn('string', 'Topping');
+        data.addColumn('number', 'Slices');
+         // Use the dynamically loaded data
+        var pizza_data = {{ pizza_data|safe }};
+        data.addRows(pizza_data);
+
+        var options = {
+          title: 'My Daily Activities',
+          is3D: true,
+        };
+        
+                       
+        var chart = new google.visualization.PieChart(document.getElementById('piechart_3d'));
+        chart.draw(data, options);
+
+        var barchart_options = {title:'Barchart: How Much Pizza I Ate Last Night',
+                       width:400,
+                       height:300,
+                       legend: 'true'};
+        var barchart = new google.visualization.BarChart(document.getElementById('barchart_div'));
+        barchart.draw(data, barchart_options);
+      }
+      var speedValue = {{ speed_value|safe }};
+
+var options = {
+  chart: {
+    type: 'radialBar',
+    offsetY: -20,
+    sparkline: {
+      enabled: true
+    }
+  },
+  plotOptions: {
+    radialBar: {
+      startAngle: -90,
+      endAngle: 90,
+      hollow: {
+        margin: 0,
+        size: '70%',
+        background: '#fff',
+        image: undefined,
+        imageOffsetX: 0,
+        imageOffsetY: 0,
+        position: 'front',
+        dropShadow: {
+          enabled: false,
+          top: 0,
+          left: 0,
+          blur: 3,
+          opacity: 0.5
+        }
+      },
+      dataLabels: {
+        name: {
+          show: false
+        },
+        value: {
+          offsetY: -2,
+          fontSize: '22px'
+        }
+      }
+    }
+  },
+  fill: {
+    type: 'gradient',
+    gradient: {
+      shade: 'dark',
+      shadeIntensity: 0.15,
+      inverseColors: false,
+      opacityFrom: 1,
+      opacityTo: 1,
+      stops: [0, 50, 65, 91]
+    }
+  },
+  stroke: {
+    dashArray: 4
+  },
+  labels: ['Speed']
+};
+
+var chart = new ApexCharts(document.querySelector("#speed-container"), options);
+chart.render();
+
+chart.updateSeries([speedValue]);
+
+
+    // Use the data passed from Python
+    var dataFromPython = {{ trade_data|safe }};
+
+// Check if there is data before rendering the chart
+if (dataFromPython.length > 0) {
+    var options = {
+        series: [{
+            name: 'Servings',
+            data: dataFromPython.map(item => item.servings),
+        }],
+        annotations: {
+            // Add your annotations if needed
+        },
+        chart: {
+            height: 350,
+            type: 'bar',
+        },
+        plotOptions: {
+            bar: {
+                borderRadius: 10,
+                columnWidth: '50%',
+            }
+        },
+        dataLabels: {
+            enabled: false
+        },
+        stroke: {
+            width: 2
+        },
+        grid: {
+            row: {
+                colors: ['#fff', '#f2f2f2']
+            }
+        },
+        xaxis: {
+            labels: {
+                rotate: -45
+            },
+            categories: dataFromPython.map(item => item.fruit_name),
+            tickPlacement: 'on'
+        },
+        yaxis: {
+            title: {
+                text: 'Servings',
+            },
+        },
+        fill: {
+            type: 'gradient',
+            gradient: {
+                shade: 'light',
+                type: "horizontal",
+                shadeIntensity: 0.25,
+                gradientToColors: undefined,
+                inverseColors: true,
+                opacityFrom: 0.85,
+                opacityTo: 0.85,
+                stops: [50, 0, 100]
+            },
+        }
+    };
+
+    var chart = new ApexCharts(document.querySelector("#trade_chart"), options);
+    chart.render();
+} else {
+    // Handle the case when there is no data
+    console.error("No data available for chart.");
+}
+
+
+    </script>
+
+</html>
+
